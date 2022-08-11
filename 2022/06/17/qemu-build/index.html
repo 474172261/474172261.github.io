@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> qemu编译简单指南一个 :) · VictorV的小博客</title><meta name="description" content="qemu编译简单指南一个 :) - VictorV"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://474172261.github.io/atom.xml" title="VictorV的小博客"><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="VictorV的小博客" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/images/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/474172261" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">qemu编译简单指南一个 :)</h1><div class="post-info">2022年6月17日</div><div class="post-content"><p>简单的qemu编译说明, 其它有关的网络和管理配置等 :)</p>
+<span id="more"></span>
+
+<h1 id="qemu编译"><a href="#qemu编译" class="headerlink" title="qemu编译"></a>qemu编译</h1><ol>
+<li><p>登录<a target="_blank" rel="noopener" href="http://download.qemu-project.org/?C=M;O=D">官方网站</a>直接下载源码包（例如文件名为qemu-2.8.0.tar.bz2）</p>
+</li>
+<li><p>解压文件<code>tar –jxvf qemu-2.8.0.tar.bz2</code></p>
+</li>
+<li><p>安装 依赖库<br> <strong>Ubuntu系统</strong></p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y zlib1g-dev </span><br><span class="line">sudo apt-get install -y libglib2.0-dev </span><br><span class="line">sudo apt-get install -y autoconf2.13 </span><br><span class="line">sudo apt-get install -y libtool </span><br><span class="line">sudo apt-get install -y libgtk2.0-dev </span><br><span class="line">以下组件可选, 针对更新的版本, 比如5.x, 6.x</span><br><span class="line">sudo apt-get install ninja-build</span><br><span class="line">sudo apt-get install libpixman-1-dev</span><br></pre></td></tr></table></figure>
+<p>  <strong>Centos系统</strong></p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">yum install zlib-devel.x86_64 -y </span><br><span class="line">yum install gtk2-devel –y </span><br><span class="line">yum install autoconf </span><br><span class="line">yum install gettext </span><br><span class="line">yum install flex </span><br><span class="line">yum install bison</span><br><span class="line">以下安装包可选</span><br><span class="line">yum install ninja-build</span><br><span class="line">yum install spice-server-devel</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> qemu-2.8.0 </span><br><span class="line">./configure  --enable-kvm  --enable-debug  --target-list=x86_64-softmmu</span><br><span class="line">make -j 4  <span class="comment">#注意, 此处的4与虚拟机或者物理机的逻辑处理器个数一样. 可以比物理的数量更小,不要超过.</span></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="kvm"><a href="#kvm" class="headerlink" title="kvm"></a>kvm</h1><p>Ubuntu系统 <code>sudo apt install qemu-kvm</code><br>其它Linux系统 <code>yum install qemu-kvm.x86_64</code><br>注意查看<code>cat /proc/cpuinfo |grep -E &quot;vmx|svm&quot;</code> 是否有结果, 如果没有, 记得启动vmware的cpu的虚拟化intel VT-x选项.</p>
+<h1 id="创建虚拟机"><a href="#创建虚拟机" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h1><p>假设创建一个虚拟机硬盘为10G:<br><code>qemu-img create -f qcow2 centos.img 10G</code></p>
+<p>通过iso创建安装系统<br><code>qemu-system-x86_64 -m 256 -hda centos.img -cdrom winxpsp2.iso -enable-kvm</code></p>
+<p>如果默认没有虚拟机界面, 可以安装vncviewer查看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install tigervnc-viewer</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后, 启动qemu会提示连接 127.0.0.1:5900, 我们使用<code>vncviewer ::5900</code> 连接即可</p>
+<h1 id="使libvirt启动我们编译的qemu版本"><a href="#使libvirt启动我们编译的qemu版本" class="headerlink" title="使libvirt启动我们编译的qemu版本"></a>使libvirt启动我们编译的qemu版本</h1><p>如果使用libvirt创建过虚拟机, 那么可以在 <code>/etc/libvirt/qemu/</code>找到虚拟机对应的xml文件.  修改下列参数:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;emulator&gt;/usr/bin/qemu-system-x86_64&lt;/emulator&gt;</span><br></pre></td></tr></table></figure>
+
+<p>改成自己编译的qemu文件目录.  比如<code>/home/vv/qemu-6.2.0/build/qemu-system-x86_64</code></p>
+<p>对于ubuntu, 还需要修改沙箱配置, 给libvirt配置访问权限.</p>
+<p>先使用<code>sudo aa-status</code>查看是否包含<code>/usr/sbin/libvirtd</code>, 如果包含, 说明启用了apparmor.</p>
+<p>修改以下文件<code>/etc/apparmor.d/usr.sbin.libvirtd</code>, 在下列类似列后面添加以下内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/kvm rmix, 这行默认就有</span><br><span class="line">/home/vv/qemu-6.2.0/** rmix, 将我们的qemu目录添加到沙箱</span><br></pre></td></tr></table></figure>
+
+<p>还有<code>/etc/apparmor.d/abstractions/libvirt-qemu</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/kvm rmix, 这行默认就有</span><br><span class="line">/home/vv/qemu-6.2.0/** rmix, 将我们的qemu目录添加到沙箱</span><br></pre></td></tr></table></figure>
+
+<p>之后重新加载规则<code>sudo systemctl reload apparmor</code></p>
+<p>这样libvirt应该就可以正常启用它了.</p>
+<blockquote>
+<p>如果没有启用apparmor还存在权限问题, 就把selinux暂时关闭: <code>setenforce 0</code></p>
+<p>更多apparmor的语法规则, 参考<a target="_blank" rel="noopener" href="https://documentation.suse.com/zh-cn/sles/15-SP2/html/SLES-all/cha-apparmor-profiles.html"> Apparmor 配置文件组件和语法</a></p>
+</blockquote>
+<p><strong>如果希望virt-manager能启用我们的qemu</strong>, 还需要为qemu添加两个编译组件:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install qemu-device-usb-redirect.x86_64 usbredir.x86_64 usbredir-devel.x86_64 </span><br><span class="line">yum install spice-server-devel spice-protocol spice-server</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果是ubuntu, 请使用<code>sudo apt install libspice-server-dev libusbredirparser-dev </code>  . </p>
+</blockquote>
+<p>并确保<code>./configure  --enable-kvm  --enable-debug  --target-list=x86_64-softmmu --enable-spice</code> 输出以下内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spice support: YES</span><br><span class="line">libusb: YES</span><br><span class="line">usb net redir: YES</span><br></pre></td></tr></table></figure>
+
+<p>之后重新编译qemu. </p>
+<p>然后在virt-manager的 <code>Edit-&gt;Preferences-&gt;General</code>勾选 <code>Enable XML editing</code>. 之后按照如下修改:</p>
+<p><img src="/images/qemu-build/change_emulator.png"></p>
+<p>下一次启动虚拟机就可以生效了(使用virt-manager也需要设置沙箱权限).</p>
+<p>参考: <a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/471345/changing-libvirt-emulator-permission-denied">Changing libvirt emulator: Permission denied</a> </p>
+<h1 id="其它使用和研究参考资料"><a href="#其它使用和研究参考资料" class="headerlink" title="其它使用和研究参考资料"></a>其它使用和研究参考资料</h1><p><a href="/otherfile/qemu%E5%8F%8Akvm%E8%BD%AF%E4%BB%B6%E7%AE%80%E4%BB%8B.pdf">qemu及kvm软件安全研究简介</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cxybb.com/article/wozaiyizhideng/116993949">qemu命令行网络相关参数详解</a></p>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/extremecoders-re/e8fd8a67a515fee0c873dcafc81d811c">给qemu配置tap</a> </p>
+<blockquote>
+<p>配置tap前记得先安装 bridge-utils, uml-utilities</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/474172261/wctf_vm_escape_virtualHole">virtualhole——qemu安全入门练习题</a></p>
+<blockquote>
+<p>这个练习题既可以加深你对虚拟化漏洞的理解, 也可以提高你的利用技巧, 虚拟化入门必选</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://blackhat.com/asia-21/briefings/schedule/#scavenger-misuse-error-handling-leading-to-qemukvm-escape-21971">Scavenger: Misuse Error Handling Leading to Qemu&#x2F;KVM Escape</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8320?accounttraceid=6ede24cd2a974ccbb0703b7121b5469dhtfc">CVE-2020-14364-Qemu逃逸漏洞分析及两种利用思路</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/0xKira/qemu-vm-escape/blob/master/Tensec2019-Vulnerability_Discovery_and_Exploitation_of_Virtualization_Solutions_for_Cloud_Computing_and_Desktops.pdf">Slirp QEMU escape</a></p>
+<p><a target="_blank" rel="noopener" href="https://insujang.github.io/2021-03-10/virtio-and-vhost-architecture-part-1/">Virtio and Vhost Architecture part1</a></p>
+<p><a target="_blank" rel="noopener" href="https://insujang.github.io/2021-03-15/virtio-and-vhost-architecture-part-2/">Virtio and Vhost Architecture part2</a></p>
+<h1 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h1><p><strong>ERROR: glib-2.56 gthread-2.0 is required to compile QEMU</strong></p>
+<p>这个应该是没有装好glib相关的东西, 执行<code>sudo apt install libglib2.0-dev</code>安装, 如果出现如下错误:</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">The following packages have unmet dependencies:</span><br><span class="line">libglib2.0-dev : Depends: libglib2.0-0 (= 2.64.6-1~ubuntu20.04.3) but 2.64.6-1~ubuntu20.04.4 is to be installed</span><br><span class="line">               Depends: libglib2.0-bin (= 2.64.6-1~ubuntu20.04.3)</span><br><span class="line">               Depends: zlib1g-dev but it is not going to be installed</span><br><span class="line">E: Unable to correct problems, you have held broken packages.</span><br></pre></td></tr></table></figure>
+
+<p>  先安装libglib2.0-0,  <code>sudo apt install libglib2.0-0=2.64.6-1~ubuntu20.04.3</code></p>
+<blockquote>
+<p>警告!!! 更改libglib2.0-0的版本可能导致ubuntu 20.04的桌面启动出问题, 重启后将进不了桌面.</p>
+</blockquote>
+<p><strong>Depends: zlib1g (&#x3D; 1:1.2.11.dfsg-2ubuntu1) but 1:1.2.11.dfsg-2ubuntu1.2 is to be installed</strong></p>
+<p>如果安装zlib1g-dev失败出现如下错误:</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install zlib1g-dev</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree       </span><br><span class="line">Reading state information... Done</span><br><span class="line">Some packages could not be installed. This may mean that you have</span><br><span class="line">requested an impossible situation or <span class="keyword">if</span> you are using the unstable</span><br><span class="line">distribution that some required packages have not yet been created</span><br><span class="line">or been moved out of Incoming.</span><br><span class="line">The following information may <span class="built_in">help</span> to resolve the situation:</span><br><span class="line"></span><br><span class="line">The following packages have unmet dependencies:</span><br><span class="line">zlib1g-dev : Depends: zlib1g (= 1:1.2.11.dfsg-2ubuntu1) but 1:1.2.11.dfsg-2ubuntu1.2 is to be installed</span><br><span class="line">E: Unable to correct problems, you have held broken packages.</span><br></pre></td></tr></table></figure>
+
+<p>  又提示依赖的版本不对, 用如下方法安装</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install zlib1g=1:1.2.11.dfsg-2ubuntu1</span><br></pre></td></tr></table></figure>
+
+<p>  再重新安装<code>sudo apt install zlib1g-dev libglib2.0-dev</code></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2022/06/17/linux-skill/" class="prev">上一篇</a><a href="/2022/06/17/qemu-virtual-device-init/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2022 <a href="http://474172261.github.io">VictorV</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
