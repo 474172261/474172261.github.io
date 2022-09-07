@@ -2,18 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://474172261.github.io/2022/06/17/build-blog/</loc>
+    <loc>http://474172261.github.io/2022/08/11/CVE-2022-35804/</loc>
     
-    <lastmod>2022-08-15</lastmod>
+    <lastmod>2022-09-07</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/08/11/CVE-2022-35804/</loc>
+    <loc>http://474172261.github.io/2022/06/17/qemu-virtual-device-init/</loc>
     
-    <lastmod>2022-08-11</lastmod>
+    <lastmod>2022-09-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://474172261.github.io/2022/06/17/build-blog/</loc>
+    
+    <lastmod>2022-08-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -41,15 +50,6 @@
     <loc>http://474172261.github.io/2022/06/17/linux-skill/</loc>
     
     <lastmod>2022-05-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://474172261.github.io/2022/06/17/qemu-virtual-device-init/</loc>
-    
-    <lastmod>2022-03-29</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -121,7 +121,7 @@
 
   <url>
     <loc>http://474172261.github.io/</loc>
-    <lastmod>2022-08-15</lastmod>
+    <lastmod>2022-09-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
