@@ -12,7 +12,7 @@
 </blockquote>
 </li>
 <li><p>对于rk3568设备, 参考<a target="_blank" rel="noopener" href="https://device.harmonyos.com/cn/docs/documentation/guide/ide-rk3568-compile-0000001238957517">编译RK3568开发板源码</a>章节的<strong>1</strong>,<strong>2</strong>,<strong>3</strong>的内容. 准备好后, 参考<a target="_blank" rel="noopener" href="https://gitee.com/hihope_iot/docs/blob/master/HiHope_DAYU200/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E7%BC%96%E8%AF%91%E6%8C%87%E5%8D%97.md">HiHope_DAYU200&#x2F;开发环境搭建编译指南</a>, 安装需要的组件, 如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update &amp;&amp; sudo apt-get install binutils git git-lfs gnupg flex</span><br><span class="line">bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib</span><br><span class="line">libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev ccache</span><br><span class="line">libgl1-mesa-dev libxml2-utils xsltproc unzip m4 bc gnutls-bin python3.8</span><br><span class="line">python3-pip ruby libtinfo-dev libtinfo5</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install binutils git git-lfs gnupg flex</span><br><span class="line">bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib</span><br><span class="line">libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev ccache</span><br><span class="line">libgl1-mesa-dev libxml2-utils xsltproc unzip m4 bc gnutls-bin python3.8</span><br><span class="line">python3-pip ruby libtinfo-dev libtinfo5</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>如果安装有问题, 可以考虑使用aptitude来解决.</p>
@@ -70,7 +70,7 @@
 <p><img src="/images/OpenHarmony-test/1670580692357.png" alt="1670580692357"></p>
 <p>先择自动签名.</p>
 </li>
-<li><p>完成后就可以在下图位置开始调试和此时运行了</p>
+<li><p>完成后就可以在下图位置开始调试和测试运行了</p>
 <p><img src="/images/OpenHarmony-test/1670580744213.png" alt="1670580744213"></p>
 </li>
 </ol>
@@ -89,7 +89,7 @@
 <li><p>使用<code>./build.sh --product-name rk3568 --build-target DiscSdkTest </code>生成测试用例, 生成位置<code>OpenHarmony/out/rk3568/tests/unittest/dsoftbus/discovery/DiscSdkTest</code></p>
 </li>
 <li><p>使用<code>C:\Users\vv\AppData\Local\OpenHarmony\Sdk\9\native\llvm\bin\lldb.exe</code>或者Ubuntu的lldb连接目标server</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt; .\lldb.exe --arch thumbv7</span><br><span class="line">(lldb) platform select remote-freebsd</span><br><span class="line">  Platform: remote-freebsd</span><br><span class="line"> Connected: no</span><br><span class="line">(lldb) platform connect connect://192.168.1.8:1234</span><br><span class="line">  Platform: remote-freebsd</span><br><span class="line">    Triple: arm-unknown-linux-unknown</span><br><span class="line">OS Version: 5.10.93 (5.10.93)</span><br><span class="line">  Hostname: localhost</span><br><span class="line"> Connected: yes</span><br><span class="line">WorkingDir: /</span><br><span class="line">    Kernel: #1 SMP Wed Dec 7 15:20:41 CST 2022</span><br><span class="line">(lldb) platform set -w /data/test 设置测试目录为我们刚创建的test目录</span><br><span class="line">(lldb) file ./DiscSdkTest 执行run的时候会将本地文件DiscSdkTest放置到目标目录</span><br><span class="line">(lldb) run 开始运行</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt; .\lldb.exe --arch thumbv7</span><br><span class="line">(lldb) platform select remote-linux</span><br><span class="line">  Platform: remote-linux</span><br><span class="line"> Connected: no</span><br><span class="line">(lldb) platform connect connect://192.168.1.8:1234</span><br><span class="line">  Platform: remote-freebsd</span><br><span class="line">    Triple: arm-unknown-linux-unknown</span><br><span class="line">OS Version: 5.10.93 (5.10.93)</span><br><span class="line">  Hostname: localhost</span><br><span class="line"> Connected: yes</span><br><span class="line">WorkingDir: /</span><br><span class="line">    Kernel: #1 SMP Wed Dec 7 15:20:41 CST 2022</span><br><span class="line">(lldb) platform set -w /data/test 设置测试目录为我们刚创建的test目录</span><br><span class="line">(lldb) file ./DiscSdkTest 执行run的时候会将本地文件DiscSdkTest放置到目标目录</span><br><span class="line">(lldb) run 开始运行</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>目前我还没有找到办法让它加载正确的符号, 如果解决了再更新.</p>
@@ -97,7 +97,7 @@
 </blockquote>
 </li>
 </ol>
-</div></article></div></main><footer><div class="paginator"><a href="/2022/12/13/lldb-help/" class="prev">上一篇</a><a href="/2022/09/29/PCI/" class="next">下一篇</a></div><div id="container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><div id="gitalk-container"></div><script>const gitalk = new Gitalk({
+</div></article></div></main><footer><div class="paginator"><a href="/2022/12/13/lldb-help/" class="prev">PREV</a><a href="/2022/09/29/PCI/" class="next">NEXT</a></div><div id="container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><div id="gitalk-container"></div><script>const gitalk = new Gitalk({
     clientID: '28b1a73c3ed656a9a85d',     
     clientSecret: '59837bb4cbe7b2f12df366fdbcb37fa4ba084d44',     
     id: 'Fri Dec 09 2022 17:12:40 GMT+0800',    
