@@ -26,30 +26,36 @@
 <li><p>按照如图所示连接电源线, 串口线, usb线</p>
 <p><img src="/images/OpenHarmony-test/image-20220516164155093-1670578318853.png" alt="image-20220516164155093"> </p>
 </li>
-<li><p>确保机器连接成功</p>
-<p>在DevEco Device Tool中，选择<strong>REMOTE DEVELOPMENT &gt; Local PC</strong>，查看远程计算机（Ubuntu开发环境）与本地计算机（Windows开发环境）的连接状态。</p>
-<ul>
-<li>如果Local PC右边连接按钮为<img src="/images/OpenHarmony-test/0000000000011111111.20221103203815.29479667178649659611825009095889.png" alt="img">，则远程计算机与本地计算机为已连接状态，不需要执行其他操作。</li>
-<li>如果Local PC右边连接按钮为<img src="/images/OpenHarmony-test/0000000000011111111.20221103203815.13315054995903780297957510189204.png" alt="img">，则点击绿色按钮进行连接。连接时DevEco Device Tool会重启服务，因此请不要在下载源码或源码编译过程中进行连接，否则会中断任务。</li>
-</ul>
-</li>
 <li><p>下载<a target="_blank" rel="noopener" href="https://gitee.com/hihope_iot/docs/tree/master/HiHope_DAYU200/%E7%83%A7%E5%86%99%E5%B7%A5%E5%85%B7%E5%8F%8A%E6%8C%87%E5%8D%97/windows">驱动工具</a></p>
-<p>运行<code>DriverAssitant\DriverInstall.exe  </code>, 点击驱动安装.</p>
+<blockquote>
+<p>需要下载的文件:  DriverAssitant_v5.1.1.zip,  RKDevTool.exe,  config.ini, Language 目录.</p>
+<p>一定要保留Language目录, 否则工具会出现点一下就崩溃或者一直static的状况.</p>
+</blockquote>
+<p>解压DriverAssitant_v5.1.1.zip后, 运行<code>DriverAssitant\DriverInstall.exe  </code>, 点击<code>驱动安装</code>.</p>
 </li>
 <li><p>打开<code>RKDevTool.exe </code>烧写工具, 查看设备状态.</p>
+<p>如果开着机, 默认是如下状态:</p>
+<p><img src="/images/OpenHarmony-test/1672023200456.png" alt="1672023200456"></p>
 </li>
 <li><p>按住下图所示两个键</p>
 <p><img src="/images/OpenHarmony-test/image-20220516170351601.png" alt="image-20220516170351601"> </p>
 <p>烧录工具会提示没发现设备.</p>
 <p>然后松开reset键, 显示”发现一个loader设备”. 然后松开剩下的按键. 等待3秒.</p>
 </li>
-<li><p>在vs code中点击upload选项即可烧录.</p>
-<p><img src="/images/OpenHarmony-test/0000000000011111111.20221103203816.15089950501154467365030783854423.png" alt="img"> </p>
-<blockquote>
-<p>此处它会把需要烧录的文件从ubuntu拷贝到本地, 可能会比较慢</p>
-</blockquote>
+</ol>
+<h2 id="使用烧录工具烧录"><a href="#使用烧录工具烧录" class="headerlink" title="使用烧录工具烧录"></a>使用烧录工具烧录</h2><p>vscode烧录时, 传输文件会比scp命令慢, 我们可以手动烧录.</p>
+<p>将ubuntu目录源码的<code>out/rk3568/packages/phone/images/</code>目录下的所有文件拷贝到本地, 然后在<code>RKDevTool.exe </code>工具的栏目里右键选择<code>load config</code>, 加载目录里的<code>config.cfg</code>文件, 并修改好每个文件的路径. 点击<code>执行</code>烧录.</p>
+<h2 id="使用vscode工具烧录"><a href="#使用vscode工具烧录" class="headerlink" title="使用vscode工具烧录"></a>使用vscode工具烧录</h2><ol>
+<li><p>确保机器连接成功</p>
+<p>在DevEco Device Tool中，选择<strong>REMOTE DEVELOPMENT &gt; Local PC</strong>，查看远程计算机（Ubuntu开发环境）与本地计算机（Windows开发环境）的连接状态。</p>
+<ul>
+<li>如果Local PC右边连接按钮为<img src="/images/OpenHarmony-test/0000000000011111111.20220617164602.73645117545890562218658911880196.png" alt="img">则远程计算机与本地计算机为已连接状态，不需要执行其他操作。</li>
+<li>如果Local PC右边连接按钮为<img src="/images/OpenHarmony-test/0000000000011111111.20220617164602.26357696204473864583858211392894.png" alt="img">则点击绿色按钮进行连接。连接时DevEco Device Tool会重启服务，因此请不要在下载源码或源码编译过程中进行连接，否则会中断任务</li>
+</ul>
 </li>
-<li><p>如果嫌弃vscode的upload烧录慢, 可以将ubuntu目录源码的<code>out/rk3568/packages/phone/images/config.cfg</code>及<code>out/rk3568/packages/phone/images/</code>目录下的所有文件拷贝到本地, 然后在<code>RKDevTool.exe </code>工具的栏目里右键选择<code>load config</code>, 加载<code>config.cfg</code>文件, 并修改好每个文件的路径. 点击<code>执行</code>烧录.</p>
+<li><p>在vs code中点击upload选项即可烧录.<img src="/images/OpenHarmony-test/0000000000011111111.20221103203816.15089950501154467365030783854423.png" alt="img"> </p>
+</li>
+<li><p>vscode会先拷贝文件到本地, 拷贝完成后, 会提示按键开始烧录</p>
 </li>
 </ol>
 <h1 id="创建应用调试"><a href="#创建应用调试" class="headerlink" title="创建应用调试"></a>创建应用调试</h1><ol>
