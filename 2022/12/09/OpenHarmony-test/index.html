@@ -132,7 +132,7 @@
 
 <p>上述示例实现了一个 ipc 消息发送操作.</p>
 <blockquote>
-<p>截止 2023&#x2F;1&#x2F;31, Openharmony的sdk里, <code>MessageParcel</code>接口不支持writeCString.</p>
+<p>截止 2023&#x2F;1&#x2F;31, Openharmony的sdk里, <code>MessageParcel</code>接口不支持writeCString. 如果需要写入字符串, 可以考虑用 <code>writeInt</code> 替代, 因为写入字符串也是4字节对齐的, 而CString的方式相当于写Int.</p>
 </blockquote>
 <h2 id="使用原始测试组件生成测试用例"><a href="#使用原始测试组件生成测试用例" class="headerlink" title="使用原始测试组件生成测试用例"></a>使用原始测试组件生成测试用例</h2><p>OpenHarmony自带google test, 如果要测试, 也可以通过修改自带的测试用例来实现我们的需求.</p>
 <ol>
