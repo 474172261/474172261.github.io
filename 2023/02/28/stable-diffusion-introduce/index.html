@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Stable Diffusion安装使用指南 · VictorV的小博客</title><meta name="description" content="Stable Diffusion安装使用指南 - VictorV"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://474172261.github.io/atom.xml" title="VictorV的小博客"><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="VictorV的小博客" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/images/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://twitter.com/vv474172261" target="_blank" class="nav-list-link">TWITTER</a></li><li class="nav-list-item"><a href="https://github.com/474172261" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Stable Diffusion安装使用指南</h1><div class="post-info">2023年2月28日</div><div class="post-content"><p>时下文生图已经非常火热, 自己搭一个服务, 跑起来玩也是不错的选择</p>
+<span id="more"></span>
+
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p><strong>Windows环境搭建</strong></p>
+<ol>
+<li><p>获取<a target="_blank" rel="noopener" href="https://github.com/AUTOMATIC1111/stable-diffusion-webui">AUTOMATIC1111&#x2F;stable-diffusion-webui</a>, 解压缩.</p>
+</li>
+<li><p>安装<a target="_blank" rel="noopener" href="https://www.python.org/downloads/release/python-3109/">python 3.10.9</a>, 注意开头要勾选把python添加到PATH或者手动添加. </p>
+</li>
+<li><p>设置国内pip源. 在<code>C:\users\你的用户名\</code>下创建<code>pip</code>文件夹, 并新建<code>pip.ini</code>文件, 添加以下内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">index-url = https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line">trusted-host = pypi.tuna.tsinghua.edu.cn</span><br></pre></td></tr></table></figure>
+
+<p>当然也可以选其他源:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">阿里云:http://mirrors.aliyun.com/pypi/simple/</span><br><span class="line">中国科技大学:https://pypi.mirrors.ustc.edu.cn/simple/</span><br><span class="line">豆瓣(douban):http://pypi.douban.com/simple/</span><br><span class="line">清华大学:https://pypi.tuna.tsinghua.edu.cn/simple/</span><br><span class="line">中国科学技术大学:http://pypi.mirrors.ustc.edu.cn/simple/</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>安装<a target="_blank" rel="noopener" href="https://git-scm.com/downloads">git</a>, 安装完成后, 最好是有本地翻墙, 设置git代理, 不然下载可能出现问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global https.proxy http://127.0.0.1:1080</span><br><span class="line">git config --global http.proxy http://127.0.0.1:1080</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>进入<code>stable-diffusion-webui</code>目录, 打开<code>launch.py</code></p>
+<p>在下面位置添加一行输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">command, desc=<span class="literal">None</span>, errdesc=<span class="literal">None</span>, custom_env=<span class="literal">None</span>, live=<span class="literal">False</span></span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;run:&quot;</span>, command) <span class="comment"># 添加此行</span></span><br><span class="line">    <span class="keyword">if</span> desc <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="built_in">print</span>(desc)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>运行<code>webui.bat</code>, 它会自动下载需要的组件. </p>
+<blockquote>
+<p>如果遇到它输出卡了很久或者失败, 找到我们设置的<code>run:</code>输出, 手动执行一下看看问题在哪. </p>
+<p>默认它会先git下载需要的库到<code>repositories</code>目录里, 然后才下载python的库, 为了提高操作速度, 可以在它下载git的时候另起一个终端执行<code>python -m pip install -r requirements_versions.txt --prefer-binary</code>下载所需的库.</p>
+<p>如果显卡的内存比较低, 打开<code>webui-user.bat</code>, 在<code> COMMANDLINE_ARGS=</code> 后添加 <code>--lowvram</code>(显卡是2GB显存), 或者<code>--medvram</code>(4GB - 6GB显存), 然后运行<code>webui-user.bat</code>而非<code>webui.bat</code>. <a target="_blank" rel="noopener" href="https://rentry.org/voldy">参考</a></p>
+</blockquote>
+<p>出现以下信息代表正常执行, 可以在浏览器访问它了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Model loaded in 13.9s (load weights from disk: 0.1s, create model: 0.6s, apply weights to model: 8.6s, apply half(): 1.2s, move model to device: 1.3s, load textual inversion embeddings: 1.9s).</span><br><span class="line">run: git rev-parse HEAD</span><br><span class="line">Running on local URL:  http://127.0.0.1:7860</span><br><span class="line"></span><br><span class="line">To create a public link, set `share=True` in `launch()`</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问<a target="_blank" rel="noopener" href="http://127.0.0.1:7860/">http://127.0.0.1:7860</a>:</p>
+<p><img src="/images/stable-diffusion-introduce/1678413027084.png" alt="1678413027084"></p>
+</li>
+</ol>
+<h1 id="tag指南"><a href="#tag指南" class="headerlink" title="tag指南"></a>tag指南</h1><h2 id="tag规则"><a href="#tag规则" class="headerlink" title="tag规则"></a>tag规则</h2><p><code>(tag)</code>表示强调tag, <code>((tag))</code>可以像这样嵌套多个括号, 强调更高, 但其实还不如写数值, 比如<code>(tag:1.2)</code>, 就是强调1.2倍, 当然也可以是小于1来减弱.</p>
+<p><code>[tag]</code>就是减弱tag</p>
+<p><code>[tag1:tag2:n]</code>, 如果n为正整数, 就是在n步前用tag1, n步后用tag2, 如果&lt;1的小数, 就是百分比</p>
+<p>[tag1|tag2] 表示这是混合tag, 再多就是更混. <code>[cow|horse|cat|dog] in a field</code>就是先朝着像牛努力，再朝着像马努力，再向着猫努力，再向着狗努力，再向着马努力 </p>
+<p>tag越靠前, 权重越大. tag越多, 每个的权重就越小. 如果拼写错误, 将会理解成字母.</p>
+<p><code>&lt;lora:theovercomer8sContrastFix_sd15:0.6&gt;</code> 这种就是选择了模型后, 自动填入的, <code>:</code>表示强调程度,</p>
+<p><a href="/otherfile/SD-WebUI%E6%8C%87%E5%8D%97-%E5%8F%82%E6%95%B0%E7%AF%87.pdf">参考文件</a>, 来自B站up主<code>PiPI哈皮</code>.</p>
+<h2 id="tag进阶"><a href="#tag进阶" class="headerlink" title="tag进阶"></a>tag进阶</h2><p>参考: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/577238010">Stable Diffusion使用入门与提示词技巧</a> </p>
+<p>推荐的tag顺序是: 描述画质的词, 画面主要内容的词</p>
+<p><strong>提高画质</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">best quality, ultra-detailed, masterpiece, finely detail, highres, 4k, 8k wallpaper, extremely clear, ultra-detailed unity 8k wallpaper</span><br></pre></td></tr></table></figure>
+
+<p><strong>画质负面词</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(worst quality:2), (low quality:2), (normal quality:2), lowres</span><br></pre></td></tr></table></figure>
+
+<p><strong>提高元素质量</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">beautiful detailed eyes</span><br><span class="line">highly detailed skin</span><br><span class="line">extremely delicate and beautiful girls</span><br></pre></td></tr></table></figure>
+
+<p>后面的名词也可以换成其他的</p>
+<p><strong>人物负面词</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mutated hands and fingers,text,title,deformed, bad anatomy, disfigured, poorly drawn face, mutation, mutated, extra limb, ugly, poorly drawn hands, missing limb, floating limbs, disconnected limbs, malformed hands, out of focus, long neck, long body</span><br></pre></td></tr></table></figure>
+
+<p><strong>人物描述词</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smile, puffy eyes(眼袋 卧蚕?),</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>手的负面词</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((poorly drawn hands)),more than 1 left hand, more than 1 right hand, short arm, (((missing arms))), bad hands,missing fingers,(extradigit),(fewer digits),mutated hands,(fused fingers),(too many fingers),sharp fingers,wrong figernails,long hand,double middle finger,index fingers together,missing indexfinger,interlocked fingers,pieck fingers,sharp fingernails,(steepled fingers),x fingers,((curled fingers)),(no finger gaps),interlocked fingers,fingers different thickness,cross fingers,poor outline,big fingers,finger growth,outline on body,outline on hair,out line on background,more than one hands,fuse arm,fuse elbow,more than two arm,more than two elbow</span><br></pre></td></tr></table></figure>
+
+<p><strong>视角和视线</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dynamic angle</span><br><span class="line">from above 俯视</span><br><span class="line">from below 仰视</span><br><span class="line">wide shot 广角</span><br><span class="line">Aerial View 鸟瞰</span><br><span class="line">looking at viewer</span><br><span class="line">looking at another</span><br><span class="line">looking away</span><br><span class="line">looking back</span><br><span class="line">looking up</span><br></pre></td></tr></table></figure>
+
+<p><strong>身体</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">full body shot 全身</span><br><span class="line">half body shot,cowboy shot 半身</span><br><span class="line">close-up shot 近身</span><br></pre></td></tr></table></figure>
+
+<p><strong>光线</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dynamic lighting 动态光</span><br><span class="line">cinematic lighting 电影光</span><br><span class="line">professional lighting</span><br><span class="line">soft lighting, radiosity</span><br></pre></td></tr></table></figure>
+
+<p><strong>画风</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sketch 素描</span><br><span class="line">one-hour drawing challenge 手绘风</span><br></pre></td></tr></table></figure>
+
+<p><strong>身体状态</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">blush（脸红）</span><br><span class="line">wet sweat（大汗）</span><br><span class="line">flying sweatdrops (飞汗 ）</span><br></pre></td></tr></table></figure>
+
+<p><strong>姿势</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hands on 例hands on own face, hands on feet, hands on breast </span><br><span class="line">kneeling 跪着</span><br><span class="line">hand between legs</span><br><span class="line">hair flip 撩发</span><br><span class="line">skirt flip 撩衣</span><br></pre></td></tr></table></figure>
+
+<h2 id="推荐的获取tag的网站"><a href="#推荐的获取tag的网站" class="headerlink" title="推荐的获取tag的网站"></a>推荐的获取tag的网站</h2><p><a href="Lexica.art">Lexica</a> 有图片和prompt</p>
+<p><a target="_blank" rel="noopener" href="https://www.pixiv.net/">pixiv</a> ai图片分享</p>
+<p><a target="_blank" rel="noopener" href="https://civitai.com/">civitai</a>里面的每一个模型的图片都有人分享, 通过PNG Info获取prompt</p>
+<p><a target="_blank" rel="noopener" href="https://aitag.top/">aitag</a> 一个tag网站</p>
+<h1 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h1><h2 id="获取AI图的信息"><a href="#获取AI图的信息" class="headerlink" title="获取AI图的信息"></a>获取AI图的信息</h2><p>如果看上了一个ai图片, 找到原图, 把图放到webui的PNG info里, 可以读取生成时的参数, 不过小心网络图片压缩导致的信息丢失.</p>
+<p>另外, 由于模型的本地文件名决定了某些tag的名称, 所以如果你下载模型的时候没有使用默认名称, 就需要知道它具体用了什么模型, 改成正确的名字.</p>
+<p>此外, <code>text inversion</code>在被使用的时候, 是没办法和普通tag做区分的, 如果发现奇怪的名词tag, 那大概率是<code>text inversion</code>. 可以在civitai里搜索它.</p>
+<h1 id="模型推荐"><a href="#模型推荐" class="headerlink" title="模型推荐"></a>模型推荐</h1><p><a target="_blank" rel="noopener" href="https://civitai.com/models/13941/epinoiseoffset">https://civitai.com/models/13941/epinoiseoffset</a> 提高对比度的Noise Offset的Lora模型</p>
+<h1 id="教程推荐"><a href="#教程推荐" class="headerlink" title="教程推荐"></a>教程推荐</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/607892849">AI绘画教程：从入门到放弃(xiaobai)</a></p>
+<h1 id="插件推荐"><a href="#插件推荐" class="headerlink" title="插件推荐"></a>插件推荐</h1><p><a target="_blank" rel="noopener" href="https://github.com/pkuliyi2015/multidiffusion-upscaler-for-automatic1111">MultiDiffusion with Tiled VAE</a> 8k分辨率放大</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Coyote-A/ultimate-upscale-for-automatic1111.git">Ultimate SD Upscale extension for </a> 另一个放大器</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/zero01101/openOutpaint">openoutpaint</a> 根据图片绘制额外内容</p>
+<h1 id="在线体验服务"><a href="#在线体验服务" class="headerlink" title="在线体验服务"></a>在线体验服务</h1><p>huggingface可以提供名为Space的虚拟机服务,  上面有很多免费的各种服务, 可以通过这些免费的服务来跑 AI出图 的demo. 缺点就是速度慢, 而且没办法灵活运用插件, 只能跑着玩.</p>
+<p>比如如下几个服务:</p>
+<h2 id="controlnet"><a href="#controlnet" class="headerlink" title="controlnet"></a>controlnet</h2><p><a target="_blank" rel="noopener" href="https://huggingface.co/spaces/hysts/ControlNet">https://huggingface.co/spaces/hysts/ControlNet</a></p>
+<h2 id="stable-diffusion-webui"><a href="#stable-diffusion-webui" class="headerlink" title="stable-diffusion-webui"></a>stable-diffusion-webui</h2><p><a target="_blank" rel="noopener" href="https://huggingface.co/spaces/jackli888/stable-diffusion-webui">https://huggingface.co/spaces/jackli888/stable-diffusion-webui</a></p>
+<h1 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h1><ol>
+<li><p><strong>No module ‘xformers’. Proceeding without it.</strong></p>
+<p>对于低端显卡, 倒是没什么影响, 但是高端显卡, 可能需要接近一下</p>
+</li>
+<li><p><strong>ModuleNotFoundError: No module named ‘basicsr.version’</strong></p>
+<p>先重新运行<code>python -m pip install -r requirements_versions.txt --prefer-binary</code>, 再打开<code>stable-diffusion-webui\venv\pyvenv.cfg </code>, 修改<code> include-system-site-packages = true </code>, 再重新运行<code>webui.bat</code>即可. <a target="_blank" rel="noopener" href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/1598">参考</a></p>
+</li>
+<li><p><strong>Expected all tensors to be on the same device, but found at least two devices, cpu and cuda:0! (when checking argument for argument index in method wrapper__index_select)</strong></p>
+<p>去掉webui-user.bat的 <code>--medvram</code></p>
+</li>
+<li><p><strong>RuntimeError: CUDA out of memory. Tried to allocate 30.00 MiB (GPU 0; 4.00 GiB total capacity; 1.7 GiB already allocated; 0 bytes free; 2.30 GiB reserved in total by PyTorch) If reserved memory is &gt;&gt; allocated memory try setting max_split_size_mb to avoid fragmentation.</strong></p>
+<p>显卡内存不足, 在<code>webui-user.bat</code>的<code> COMMANDLINE_ARGS=</code> 添加<code>--lowvram</code>, 使用<code>webui-user.bat</code>启动</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv19183915/">其他错误参考</a></p>
+<h1 id="关键名词解释"><a href="#关键名词解释" class="headerlink" title="关键名词解释"></a>关键名词解释</h1><p><a target="_blank" rel="noopener" href="https://openai.wiki/ai-painting-model-guide.html">来源</a></p>
+<h2 id="模型仓库"><a href="#模型仓库" class="headerlink" title="模型仓库"></a>模型仓库</h2><p>常见的模型下载仓库为以下几种，点击可直接前往仓库地址：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://huggingface.co/">HuggingFace</a>：Stable Diffusion、ControlNet的官方仓库。</li>
+<li><a target="_blank" rel="noopener" href="https://civitai.com/">Civitai</a>：里面多是Lora或其它NSFW等模型的仓库。</li>
+<li>Discord：公共聊天软件，如果有需要可行前往搜索相应频道。</li>
+<li>TG：公共聊天软件，如果有需要可行前往搜索相应频道。</li>
+<li>Reddit：公共交流社区，如果有需要可行前往搜索相应频道。</li>
+</ul>
+<p>在HuggingFace仓库中下载所需的模型时，将会看到各种各样格式的文件。对于一般的使用者来说，仅下载Stable Diffusion的常用CKPT格式模型文件即可。</p>
+<h2 id="模型种类"><a href="#模型种类" class="headerlink" title="模型种类"></a>模型种类</h2><h3 id="大模型"><a href="#大模型" class="headerlink" title="大模型"></a>大模型</h3><p>大模型特指标准的<code>latent-diffusion</code>模型。拥有完整的<code>TextEncoder</code>、<code>U-Net</code>、<code>VAE</code>。</p>
+<p>由于想要训练一个大模型非常困难，需要极高的显卡算力，所以更多的人选择去训练小型模型。</p>
+<h4 id="CKPT"><a href="#CKPT" class="headerlink" title="CKPT"></a>CKPT</h4><p>CKPT格式的全称为<code>CheckPoint</code>（检查点），完整模型的常见格式，模型体积较大，一般单个模型的大小在7GB左右。</p>
+<p>文件位置：该模型一般放置在<code>*\stable-diffusion-webui\models\Stable-diffusion</code>目录内。</p>
+<h3 id="小模型"><a href="#小模型" class="headerlink" title="小模型"></a>小模型</h3><p>小模型一般都是截取大模型的某一特定部分，虽然不如大模型能力那样完整，但是小而精，因为训练的方向各为明确，所以在生成特定内容的情况下，效果更佳。</p>
+<p>常见微调模型：<code>Textual inversion (Embedding)</code>、<code>Hypernetwork</code>、<code>VAE</code>、<code>LoRA</code>等，下面一一进行介绍。</p>
+<h4 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a>VAE</h4><p>全称：VAE全称<code>Variational autoencoder</code>。变分自编码器，负责将潜空间的数据转换为正常图像。</p>
+<p>后缀格式：后缀一般为.pt格式。</p>
+<p>功能描述：类似于滤镜一样的东西，他会影响出图的画面的色彩和某些极其微小的细节。大模型本身里面自带 VAE ，但是并不是所有大模型都适合使用VAE，VAE最好搭配指定的模型，避免出现反效果，降低生成质量。</p>
+<p>使用方法：<code>设置 -&gt; Stable-Diffusion -&gt; 模型的 VAE (SD VAE)</code>，在该选项框内选择VAE模型。</p>
+<p>文件位置：该模型一般放置在<code>*\stable-diffusion-webui\models\VAE</code>目录内。</p>
+<h4 id="Embedding"><a href="#Embedding" class="headerlink" title="Embedding"></a>Embedding</h4><p>常见格式为<code>pt</code>、<code>png</code>、<code>webp</code>格式，文件体积一般只有几KB。</p>
+<p>风格模型，即只针对一个风格或一个主题，并将其作为一个模块在生成画作时使用对应TAG在Prompt进行调用。</p>
+<p>使用方法：例如用数百张<code>海绵宝宝</code>训练了一个Embedding模型，然后将该模型命名为<code>HMBaby</code>，在使用AI绘图时加载名称为<code>HMBaby</code>的Embedding模型，在使用Promat时加入<code>HMBaby</code>的Tag关键字，SD将会自动调用该模型参与AI创作。</p>
+<p>文件位置：该模型一般放置在<code>*\stable-diffusion-webui\embeddings</code>目录内。</p>
+<h4 id="Hypernetwork"><a href="#Hypernetwork" class="headerlink" title="Hypernetwork"></a>Hypernetwork</h4><p>一般为.pt后缀格式，大小一般在几十兆左右。这种模型的可自定义的参数非常之多。</p>
+<p>使用方法：使用方法：在SD的文生图或图生图界面内的生成按钮下，可以看到一个红色的图标，该图标名为<code>Show extra networks（显示额外网络）</code>，点击该红色图标将会在本页弹出一个面板，在该面板中可以看到<code>Hypernetwork选项卡</code>。</p>
+<p>文件位置：该模型一般放置在<code>*\stable-diffusion-webui\models\hypernetworks</code>目录内。</p>
+<h4 id="LoRA"><a href="#LoRA" class="headerlink" title="LoRA"></a>LoRA</h4><p>LoRA(Low-Rank Adaptation of Large Language Models)的模型分两种，一种是基础模型，一种是变体。</p>
+<p>目前最新版本的Stable-diffusion-WebUI原生支持Lora模型库，非常方便使用。</p>
+<p>使用方法：在SD的文生图或图生图界面内的生成按钮下，可以看到一个红色的图标，该图标名为<code>Show extra networks（显示额外网络）</code>，点击该红色图标将会在本页弹出一个面板，在该面板中可以看到Lora选项卡，在该选项卡中可以自由选择Lora模型，点击想要使用的模型将会自动在Prompt文本框中插入该Lora模型的Tag名称。</p>
+<h5 id="基础模型"><a href="#基础模型" class="headerlink" title="基础模型"></a>基础模型</h5><p>名称一般为<code>chilloutmix*</code>，后缀可能为safetensors或CKPT。</p>
+<p>基础模型存放位置：<code>*\stable-diffusion-webui\models\Stable-diffusion</code>目录内。</p>
+<h5 id="变体模型"><a href="#变体模型" class="headerlink" title="变体模型"></a>变体模型</h5><p>变体模型存放位置：<code>*\stable-diffusion-webui\models\Lora</code>目录内。</p>
+<h2 id="模型后缀解析"><a href="#模型后缀解析" class="headerlink" title="模型后缀解析"></a>模型后缀解析</h2><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.ckpt</td>
+<td>Pytorch的标准模型保存格式，容易遭受Pickle反序列化攻击。</td>
+</tr>
+<tr>
+<td>.pt</td>
+<td>Pytorch的标准模型保存格式，容易遭受Pickle反序列化攻击。</td>
+</tr>
+<tr>
+<td>.pth</td>
+<td>Pytorch的标准模型保存格式，容易遭受Pickle反序列化攻击。</td>
+</tr>
+<tr>
+<td>.safetensors</td>
+<td>safetensors格式可与Pytorch的模型相互格式转换，内容数据无区别。</td>
+</tr>
+<tr>
+<td>其它</td>
+<td>webui 特殊模型保存方法：PNG、WEBP图片格式。</td>
+</tr>
+</tbody></table>
+<h3 id="Safetensors格式"><a href="#Safetensors格式" class="headerlink" title="Safetensors格式"></a>Safetensors格式</h3><ul>
+<li>Safetensors格式所生成的内容与ckpt等格式完全一致（包括NFSW）。</li>
+<li>Safetensors格式拥有更高的安全性，</li>
+<li>Safetensors比ckpt格式加载速度更快</li>
+<li>该格式必须在2023年之后的Stable Diffusion内才可以使用，在此之间的SD版本内使用将无法识别。</li>
+<li>Safetensors格式由Huggingface推出，将会逐渐取代ckpt、pt、pth等格式，使用方法上与其它格式完全一致。【该详细的说明文章：<a target="_blank" rel="noopener" href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/4930"><code>*.safetensors</code> (github.com)</a>】</li>
+</ul>
+<h2 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a>模型训练</h2><h3 id="Embedding-Textual-inversion"><a href="#Embedding-Textual-inversion" class="headerlink" title="Embedding (Textual inversion)"></a>Embedding (Textual inversion)</h3><p>可训练：画风√ 人物√ | 推荐训练：人物</p>
+<p>配置要求：显存6GB以上。</p>
+<p>训练速度：中等 | 训练难度：中等</p>
+<p>综合评价：☆☆☆</p>
+<h3 id="Hypernetwork-1"><a href="#Hypernetwork-1" class="headerlink" title="Hypernetwork"></a>Hypernetwork</h3><p>可训练：画风√ 人物√ | 推荐训练：画风</p>
+<p>配置要求：显存6GB以上。</p>
+<p>训练速度：中等 | 训练难度：难</p>
+<p>综合评价：☆☆</p>
+<p>评价：非常强大的一种模型，但是想训练好很难，不推荐训练。</p>
+<h3 id="LoRA-1"><a href="#LoRA-1" class="headerlink" title="LoRA"></a>LoRA</h3><p>可训练：画风? 人物√  概念√ | 推荐训练：人物</p>
+<p>配置要求：显存8GB以上。</p>
+<p>训练速度：快 | 训练难度：简单</p>
+<p>综合评价：☆☆☆☆</p>
+<p>评价：非常好训练 好出效果的人物训练，配置要求低，图要求少。</p>
+<p>备注：LoRA 本身也应该归类到 Dreambooth，但是这里还是分开讲。</p>
+<h3 id="Dreambooth-x2F-Native-Train"><a href="#Dreambooth-x2F-Native-Train" class="headerlink" title="Dreambooth &#x2F; Native Train"></a>Dreambooth &#x2F; Native Train</h3><p>可训练：画风√ 人物√ 概念√ | 推荐训练：Dreambooth 推荐人物，Native Train 推荐画风</p>
+<p>配置要求：显存12GB以上。</p>
+<p>训练速度：慢 | 训练难度：可以简单可以很难</p>
+<p>综合评价：☆☆☆☆☆</p>
+<p>评价：微调大模型，非常强大的训练方式，但是使用上会不那么灵活，推荐训练画风用，人物使用 LoRA 训练。</p>
+<h3 id="DreamArtist"><a href="#DreamArtist" class="headerlink" title="DreamArtist"></a>DreamArtist</h3><p>显存要求6GB（4GB应该也可以），只需要（也只能）使用一张图完成训练，一般用于训练人物（画风没法抓住主次），优点是训练要求极低，成功率高，缺点是容易过拟合，并且不像Embedding可以跨模型应用，这个训练时使用什么模型应用时就要用什么，哪怕调一下CLIP参数生成结果都会完全跑飞。推荐每250步保存模型，后期用X&#x2F;Y图脚本进行挑选。</p>
+<h2 id="模型后缀"><a href="#模型后缀" class="headerlink" title="模型后缀"></a>模型后缀</h2><p>仓库内一般存在多个模型文件，文件名后缀各不相同，这里简单介绍下文件名常见后缀及其含义：</p>
+<h3 id="ControlNet"><a href="#ControlNet" class="headerlink" title="ControlNet"></a>ControlNet</h3><p>ControlNet比之前的img2img要更加的精准和有效，可以直接提取画面的构图，人物的姿势和画<br>面的深度信息等等。有了它的帮助，就不用频繁的用提示词来碰运气，抽卡式的创作了。</p>
+<h3 id="instruct-pix2pix"><a href="#instruct-pix2pix" class="headerlink" title="instruct-pix2pix"></a>instruct-pix2pix</h3><p>在 stable-diffusion-webui 中的img2img专用模型 自然语言指导图像编辑 生成速度极快 ，仅需要几秒的时间。</p>
+<h3 id="FP16、FP32"><a href="#FP16、FP32" class="headerlink" title="FP16、FP32"></a>FP16、FP32</h3><p>代表着精度不同，精度越高所需显存越大，效果也会有所提升。</p>
+<h3 id="512｜768"><a href="#512｜768" class="headerlink" title="512｜768"></a>512｜768</h3><p>代表着默认训练分辨率时512X512还是768X768，理论上默认分辨率高生成效果也会相应更好。</p>
+<h3 id="inpaint"><a href="#inpaint" class="headerlink" title="inpaint"></a>inpaint</h3><p>代表着是专门为imgtoimg中的inpaint功能训练的模型，在做inpaint时效果会相对来说较好。</p>
+<h3 id="depth"><a href="#depth" class="headerlink" title="depth"></a>depth</h3><p>代表此模型是能包含处理图片深度信息并进行inpainting和img2img的</p>
+<h3 id="EMA"><a href="#EMA" class="headerlink" title="EMA"></a>EMA</h3><p>模型文件名中带EMA一般意味着这是个用来继续训练的模型,文件大小相对较大</p>
+<p>与之相比,正常的、大小相当较小的那个模型文件是为了做推理生成的</p>
+<p>对于那些有兴趣真正理解发生了什么的人来说，应该使用EMA模型来进行推理</p>
+<p>小模型实际上有EMA权重。而大模型是一个 “完整版”，既有EMA权重，也有标准权重。因此，如果你想训练这个模型，你应该加载完整的模型，并使用use_ema&#x3D;False。</p>
+<h4 id="EMA权重"><a href="#EMA权重" class="headerlink" title="EMA权重"></a>EMA权重</h4><p>就像你作为一个学生在接受训练时，也许你会在最后一次考试表现较差，或者决定作弊并记住答案。所以一般来说，通过使用考试分数的平均值，你可以更好地了解到学生的表现，</p>
+<p>由于你不关心幼儿园时的分数，如果你只考虑去年的分数(即只用一组最近的实际数据值来预测)，你会得到<code>MA</code>（moving average 移动平均数). 而如果你保留整个历史，但给最近的分数以更大的权重，则会得到<code>EMA</code>(exponential moving average 指数移动平均数)。</p>
+<p>这对具有不稳定训练动态的GANs来说是一个非常重要的技巧，但对扩散模型来说，它其实并不是那么重要。</p>
+<h3 id="VAE-1"><a href="#VAE-1" class="headerlink" title="VAE"></a>VAE</h3><p>VAE模型文件并不能和正常模型文件一样独立完成图片生成。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2023/02/23/system-help/" class="next">下一篇</a></div><div id="container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><div id="gitalk-container"></div><script>const gitalk = new Gitalk({
+    clientID: '28b1a73c3ed656a9a85d',     
+    clientSecret: '59837bb4cbe7b2f12df366fdbcb37fa4ba084d44',     
+    id: 'Tue Feb 28 2023 09:54:06 GMT+0800',    
+    repo: 'blog-comment',     
+    owner: '474172261',     
+    admin: '474172261',     
+})   
+gitalk.render('gitalk-container')</script><div class="copyright"><p>© 2015 - 2023 <a href="http://474172261.github.io">VictorV</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
