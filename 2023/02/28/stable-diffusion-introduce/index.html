@@ -111,7 +111,7 @@
 <h2 id="stable-diffusion-webui"><a href="#stable-diffusion-webui" class="headerlink" title="stable-diffusion-webui"></a>stable-diffusion-webui</h2><p><a target="_blank" rel="noopener" href="https://huggingface.co/spaces/jackli888/stable-diffusion-webui">https://huggingface.co/spaces/jackli888/stable-diffusion-webui</a></p>
 <h1 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h1><ol>
 <li><p><strong>No module ‘xformers’. Proceeding without it.</strong></p>
-<p>对于低端显卡, 倒是没什么影响, 但是高端显卡, 可能需要接近一下</p>
+<p>对于低端显卡, 倒是没什么影响, 但是高端显卡, 可能需要解决一下</p>
 </li>
 <li><p><strong>ModuleNotFoundError: No module named ‘basicsr.version’</strong></p>
 <p>先重新运行<code>python -m pip install -r requirements_versions.txt --prefer-binary</code>, 再打开<code>stable-diffusion-webui\venv\pyvenv.cfg </code>, 修改<code> include-system-site-packages = true </code>, 再重新运行<code>webui.bat</code>即可. <a target="_blank" rel="noopener" href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/1598">参考</a></p>
@@ -237,4 +237,4 @@
     owner: '474172261',     
     admin: '474172261',     
 })   
-gitalk.render('gitalk-container')</script><div class="copyright"><p>© 2015 - 2023 <a href="http://474172261.github.io">VictorV</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
+gitalk.render('gitalk-container')</script><div class="copyright"><p>© 2015 - 2024 <a href="http://474172261.github.io">VictorV</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
