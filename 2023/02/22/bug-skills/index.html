@@ -4,6 +4,12 @@
 <blockquote>
 <p>记录一些有意思的bug成因, 积攒经验值. 不定期更新</p>
 </blockquote>
+<h2 id="printf-fmt"><a href="#printf-fmt" class="headerlink" title="printf fmt"></a>printf fmt</h2><p>这种就比较老旧了, 就是如果开发者在使用printf&#x2F;snprintf之类的函数, 但是fmt是可控的, 就可以通过<code>%n</code>来实现改写栈变量中指向的目的地址的值.</p>
+<p>比如:</p>
+<p><code>snprintf(buf, 0x10, fmt, var1, var2)</code></p>
+<p>如果fmt是<code>%0123s%n</code>, 就会把<code>var2</code>指向的值设置为123.</p>
+<p>实际的参考例子:</p>
+<p><a target="_blank" rel="noopener" href="https://labs.watchtowr.com/fortinet-fortigate-cve-2024-23113-a-super-complex-vulnerability-in-a-super-secure-appliance-in-2024/?ref=blog.exploits.club">https://labs.watchtowr.com/fortinet-fortigate-cve-2024-23113-a-super-complex-vulnerability-in-a-super-secure-appliance-in-2024/?ref=blog.exploits.club</a></p>
 <h2 id="snprintf"><a href="#snprintf" class="headerlink" title="snprintf"></a>snprintf</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> src[<span class="number">9</span>] = <span class="string">&quot;bbbbbbbb&quot;</span>;</span><br><span class="line"><span class="type">char</span> dst[<span class="number">8</span>] = <span class="string">&quot;aaaaaa&quot;</span>;</span><br><span class="line"><span class="type">int</span> l = <span class="built_in">snprintf</span>(dst, <span class="number">0x5</span>, <span class="string">&quot;%s&quot;</span>, src);</span><br><span class="line"><span class="keyword">return</span> l;</span><br></pre></td></tr></table></figure>
 
 <p>一般来说, 这段代码是不会造成安全问题的, 因为并不能溢出dst, 而且函数会自动添加<code>\0</code>截断, 所以也不存在越界读取非0字节的问题. </p>
@@ -20,6 +26,11 @@
 <h2 id="PathCanonicalize"><a href="#PathCanonicalize" class="headerlink" title="PathCanonicalize"></a>PathCanonicalize</h2><p>函数功能是拼接windows的文件路径, 并移除<code>..\</code>, 但是它不会移除<code>../</code>, 如果不正确使用, 存在路径超越问题.</p>
 <p>参考案例: 议题 <a target="_blank" rel="noopener" href="https://github.com/474172261/slides/blob/main/Old%20School%2C%20New%20Story--Escape%20from%20Hyper-V%20by%20Path%20Traversal.pdf">Old School, New Story–Escape from Hyper-V by Path Traversal </a></p>
 <h2 id="strnicmp-wcsnicmp"><a href="#strnicmp-wcsnicmp" class="headerlink" title="strnicmp, wcsnicmp"></a>strnicmp, wcsnicmp</h2><p>这类函数有长度限制, 可能错误匹配. 比如 strnicmp(“abc”,”abc123”, 3) 就能通过匹配.</p>
+<h2 id="MmProbeAndLockPages-逻辑提权"><a href="#MmProbeAndLockPages-逻辑提权" class="headerlink" title="MmProbeAndLockPages 逻辑提权"></a>MmProbeAndLockPages 逻辑提权</h2><p>假如MmProbeAndLockPages 的第二个参数是<code>KernelMode(0)</code>, 而构造mdk的va地址来自用户态参数, 那就可以实现直接读写内核地址.</p>
+<p>参考: <a target="_blank" rel="noopener" href="https://big5-sec.github.io/posts/CVE-2023-29360-analysis/">https://big5-sec.github.io/posts/CVE-2023-29360-analysis/</a></p>
+<h2 id="irp-gt-RequestorMode-逻辑问题"><a href="#irp-gt-RequestorMode-逻辑问题" class="headerlink" title="irp-&gt;RequestorMode 逻辑问题"></a>irp-&gt;RequestorMode 逻辑问题</h2><p><code>irp-&gt;RequestorMode </code>和<code>irp-&gt;PreviousMode</code>. 当内核里调用ZwOpenFile 等Zw开头的api时, <code>irp-&gt;PreviousMode</code>就会从<code>UserMode</code>变成<code>KernelMode</code>, 从而绕过一些条件检查. 而<code>irp-&gt;RequestorMode </code>是指原始调用来自用户态还是内核态.</p>
+<p>另一种情况是 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iobuilddeviceiocontrolrequest">IoBuildDeviceIoControlRequest</a> , 它后续会调用 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/windows-hardware/drivers/ddi/wdm/nf-wdm-iofcalldriver">IofCallDriver</a> , 默认情况下, 它会把<code>irp-&gt;RequestorMode </code>变为<code>KenrelMode</code>.</p>
+<p>参考来源: <a target="_blank" rel="noopener" href="https://devco.re/blog/2024/08/23/streaming-vulnerabilities-from-windows-kernel-proxying-to-kernel-part1/">https://devco.re/blog/2024/08/23/streaming-vulnerabilities-from-windows-kernel-proxying-to-kernel-part1/</a></p>
 <h1 id="IDA-技巧"><a href="#IDA-技巧" class="headerlink" title="IDA 技巧"></a>IDA 技巧</h1><h2 id="结构体字段命名"><a href="#结构体字段命名" class="headerlink" title="结构体字段命名"></a>结构体字段命名</h2><p>在定义结构体时, 可以在字段命名中添加关键词, 方便审计时提高注意力.</p>
 <p><code>lock1_</code>开头, 表示字段的操作需要上锁.</p>
 <p><code>a_</code>开头, 表示字段是个数组.</p>
@@ -174,9 +185,25 @@
 <td>不清楚</td>
 <td></td>
 </tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.districtcon.org/cfp">districtcon</a></td>
+<td>2025&#x2F;2&#x2F;21</td>
+<td>美国华盛顿</td>
+<td>2024&#x2F;11&#x2F;01</td>
+<td>不清楚</td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://thesascon.com/papers">SAS2024</a></td>
+<td>2024&#x2F;10&#x2F;21</td>
+<td>印尼巴厘岛</td>
+<td>2024&#x2F;8&#x2F;15</td>
+<td>不清楚</td>
+<td></td>
+</tr>
 </tbody></table>
 <p>其它的我觉得和我想象的技术会议有点不太一样, 有兴趣的可以自己关注一下, 比如: <a target="_blank" rel="noopener" href="https://forum.defcon.org/search?searchJSON=%7B%22tag%22:%5B%22cfp%22%5D%7D">DEFCON</a>, <a target="_blank" rel="noopener" href="https://www.infosecurityeurope.com/">InfoSec</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2023/02/22/linux-skill/" class="prev">上一篇</a><a href="/2023/02/22/debug_vmx_in_esxi/" class="next">下一篇</a></div><div id="container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><div id="gitalk-container"></div><script>const gitalk = new Gitalk({
+</div></article></div></main><footer><div class="paginator"><a href="/2023/02/22/linux-skill/" class="prev">PREV</a><a href="/2023/02/22/debug_vmx_in_esxi/" class="next">NEXT</a></div><div id="container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><div id="gitalk-container"></div><script>const gitalk = new Gitalk({
     clientID: '28b1a73c3ed656a9a85d',     
     clientSecret: '59837bb4cbe7b2f12df366fdbcb37fa4ba084d44',     
     id: 'Wed Feb 22 2023 19:54:44 GMT+0800',    
