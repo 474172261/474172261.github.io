@@ -18,7 +18,7 @@
 <p>这段代码一运行, 就会出现崩溃, 且<code>rip</code>等于0, 用上gdb调试, 也摸不着头脑, 最后终于知道问题在哪, 问题就在<code>this_syscall</code>的实现上.</p>
 <p>clone这个syscall调用, 成功时, 会返回两种值, 一种是线程pid, 此时就运行在调用方的线程里. 一种是0, 此时在新建的线程里.  当从新线程返回时, <code>rsp</code>会被更新为新线程的<code>rsp</code>(即函数里的stack_end参数).</p>
 <p>在<code>this_syscall</code>的第七行调用了<code>pop rbp</code>和<code>ret</code>, 如果当前线程是新线程, rsp已经被更新了, pop和ret操作都是在新的栈里操作的, 导致ret获取了0作为rip, 从而造成了崩溃.</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2023/10/16/sqlserver-dos-CVE-2023-36728/" class="prev">PREV</a><a href="/2023/09/13/ics_CVE-2023-38148-readme/" class="next">NEXT</a></div><div id="container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><div id="gitalk-container"></div><script>const gitalk = new Gitalk({
+</div></article></div></main><footer><div class="paginator"><a href="/2023/10/16/sqlserver-dos-CVE-2023-36728/" class="prev">上一篇</a><a href="/2023/09/13/ics_CVE-2023-38148-readme/" class="next">下一篇</a></div><div id="container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><div id="gitalk-container"></div><script>const gitalk = new Gitalk({
     clientID: '28b1a73c3ed656a9a85d',     
     clientSecret: '59837bb4cbe7b2f12df366fdbcb37fa4ba084d44',     
     id: 'Wed Oct 11 2023 17:27:42 GMT+0800',    

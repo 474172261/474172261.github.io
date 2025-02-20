@@ -173,7 +173,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2025/02/02/life-record/</loc>
+    <loc>http://474172261.github.io/2023/02/02/life-record/</loc>
     
     <lastmod>2023-02-02</lastmod>
     
@@ -182,7 +182,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/06/17/linux-debug-setting/</loc>
+    <loc>http://474172261.github.io/2023/02/22/linux-debug-setting/</loc>
     
     <lastmod>2022-09-30</lastmod>
     
@@ -191,7 +191,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/09/29/PCI/</loc>
+    <loc>http://474172261.github.io/2023/02/22/PCI/</loc>
     
     <lastmod>2022-09-29</lastmod>
     
@@ -200,7 +200,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/08/11/CVE-2022-35804/</loc>
+    <loc>http://474172261.github.io/2023/02/22/CVE-2022-35804/</loc>
     
     <lastmod>2022-09-07</lastmod>
     
@@ -209,7 +209,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/06/17/qemu-virtual-device-init/</loc>
+    <loc>http://474172261.github.io/2023/02/22/qemu-virtual-device-init/</loc>
     
     <lastmod>2022-09-02</lastmod>
     
@@ -218,7 +218,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/06/17/build-blog/</loc>
+    <loc>http://474172261.github.io/2023/02/22/build-blog/</loc>
     
     <lastmod>2022-08-15</lastmod>
     
@@ -227,7 +227,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/06/17/SELinux/</loc>
+    <loc>http://474172261.github.io/2023/02/22/SELinux/</loc>
     
     <lastmod>2022-05-09</lastmod>
     
@@ -236,7 +236,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/06/17/linux-proc/</loc>
+    <loc>http://474172261.github.io/2023/02/22/linux-proc/</loc>
     
     <lastmod>2022-03-18</lastmod>
     
@@ -245,7 +245,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/06/17/configure-pvrdma-for-qemu/</loc>
+    <loc>http://474172261.github.io/2023/02/22/configure-pvrdma-for-qemu/</loc>
     
     <lastmod>2021-08-04</lastmod>
     
@@ -254,7 +254,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/06/17/dns-overflow-and-memLeak/</loc>
+    <loc>http://474172261.github.io/2023/02/22/dns-overflow-and-memLeak/</loc>
     
     <lastmod>2020-10-18</lastmod>
     
@@ -263,7 +263,7 @@
   </url>
   
   <url>
-    <loc>http://474172261.github.io/2022/06/17/rdp_mem_leak_bug/</loc>
+    <loc>http://474172261.github.io/2023/02/22/rdp_mem_leak_bug/</loc>
     
     <lastmod>2020-08-26</lastmod>
     
@@ -274,7 +274,7 @@
 
   <url>
     <loc>http://474172261.github.io/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
