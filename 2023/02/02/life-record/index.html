@@ -16,7 +16,7 @@
 <h2 id="不接显示器无法启动主机系统"><a href="#不接显示器无法启动主机系统" class="headerlink" title="不接显示器无法启动主机系统"></a>不接显示器无法启动主机系统</h2><p>我打算远程访问主机, 所以主机没有接显示器, 结果每次重启, 它就莫名其妙卡着进不了系统, 接入显示器也是没信号, 于是我关机, 接上显示器看什么情况, 结果就恢复正常了! 如果我不接显示器开机就不能进入系统, 且开机状态下再插DP或者HDMI也不好使.</p>
 <p>其实原因是, 主板的启动逻辑有问题. 主板BIOS自检的时候, 没有检查到显示设备, 就不启动了, 好像HDMI之类的没有热拔插?(虽然不理解为什么会这样, 明明显卡可以工作的.) 所以进入不了操作系统, 且没显示界面. </p>
 <p><strong>解决方法:</strong> 如果BIOS可以设置, 就设置一下. 比如我的MSI x670E主板, 一开始没有相关选项, 更新了BIOS后, 就有了” Settings &gt; Advanced &gt; Integrated Peripherals &gt; VGA Detection  “, 选择”ignore”就可以解决这个问题了. 如果有的BIOS实在不支持, 可以用hdmi dummy plug之类的东西解决.</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2023/02/22/configure-pvrdma-for-qemu/" class="prev">上一篇</a></div><div id="container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><div id="gitalk-container"></div><script>const gitalk = new Gitalk({
+</div></article></div></main><footer><div class="paginator"><a href="/2023/02/22/configure-pvrdma-for-qemu/" class="prev">PREV</a></div><div id="container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><div id="gitalk-container"></div><script>const gitalk = new Gitalk({
     clientID: '28b1a73c3ed656a9a85d',     
     clientSecret: '59837bb4cbe7b2f12df366fdbcb37fa4ba084d44',     
     id: 'Thu Feb 02 2023 12:15:02 GMT+0800',    
