@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://474172261.github.io/2025/08/22/prompt-test/</loc>
+    <loc>http://474172261.github.io/2023/02/22/lldb-help/</loc>
     
     <lastmod>2025-08-22</lastmod>
     
@@ -77,15 +77,6 @@
     <loc>http://474172261.github.io/2023/02/22/OpenHarmony-test/</loc>
     
     <lastmod>2024-11-28</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://474172261.github.io/2023/02/22/lldb-help/</loc>
-    
-    <lastmod>2024-11-26</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
