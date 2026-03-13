@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 在windows安装opencode和vscode, 体验大模型辅助编程和漏洞发现 · VictorV的小博客</title><meta name="description" content="在windows安装opencode和vscode, 体验大模型辅助编程和漏洞发现 - VictorV"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://474172261.github.io/atom.xml" title="VictorV的小博客"><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="VictorV的小博客" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/images/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://twitter.com/vv474172261" target="_blank" class="nav-list-link">TWITTER</a></li><li class="nav-list-item"><a href="https://github.com/474172261" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">在windows安装opencode和vscode, 体验大模型辅助编程和漏洞发现</h1><div class="post-info">2026年3月13日</div><div class="post-content"><p>感受了一周的vibe coding, 选择合适的工具和构建环境也够我折腾, 也是踩了不少坑, 最后总结一下自己的经验, 方便大家开始.</p>
+<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>现在大家都在用claude code, 但是由于它的封闭性, 动不动就封, 我最后还是选择了opencode, 拥抱开放自由. 体验了opencode的ui, 发现并不好用, 于是希望可以和vscode结合. 虽然有官方插件, 但是一直因为安装问题, 插件没法正常运行, 有些opencode的配置我也不太了解. 摸索了一番后, 我总结了一些我遇到的问题, 希望可以帮助大家.</p>
+<h2 id="安装opencode"><a href="#安装opencode" class="headerlink" title="安装opencode"></a>安装opencode</h2><p>首先, 点击此处<a target="_blank" rel="noopener" href="https://opencode.ai/zh/download/stable/windows-x64-nsis">https://opencode.ai/zh/download/stable/windows-x64-nsis</a> 下载官方的windows软件, 按照提示开始安装opencode.</p>
+<p>安装完成后, 插件桌面的图标, 在桌面图标右键, 选择”打开文件所在位置”:</p>
+<p><img src="/images/vscode_with_opencode.assets/1773375424991.png"></p>
+<p>我们可以把<code>opencode-cli.exe</code> 这个程序复制到你喜欢的路径. 改名成<code>opencode.exe</code></p>
+<p>然后, win+R, 输入 <code>sysdm.pl</code></p>
+<p>选择”高级”-&gt;”环境变量”</p>
+<p><img src="/images/vscode_with_opencode.assets/1773375688912.png" alt="1773375688912"></p>
+<p><img src="/images/vscode_with_opencode.assets/1773375798324.png" alt="1773375798324"></p>
+<p>如上所示, 我将路径”C:\test”目录添加到了<strong>Path</strong>里. 添加完成后, 点击确认, 结束配置环境变量.</p>
+<p>完成后, 这样在命令行输入opencode, 就可以打开opencode的命令行程序了. </p>
+<h2 id="安装vscode"><a href="#安装vscode" class="headerlink" title="安装vscode"></a>安装vscode</h2><p>进入<a target="_blank" rel="noopener" href="https://code.visualstudio.com/download#">https://code.visualstudio.com/download</a>, 选择windows安装包, 下载安装.</p>
+<h2 id="安装opencode插件"><a href="#安装opencode插件" class="headerlink" title="安装opencode插件"></a>安装opencode插件</h2><p><img src="/images/vscode_with_opencode.assets/1773375201706.png" alt="1773375201706"></p>
+<p>安装完成后, 右上角就有个图标了:</p>
+<p><img src="/images/vscode_with_opencode.assets/1773375243772.png" alt="1773375243772"></p>
+<p>点击图标, 看到它运行命令后, 就可以看到opencode了:</p>
+<p><img src="/images/vscode_with_opencode.assets/1773376072888.png" alt="1773376072888"></p>
+<p>可以通过ctrl+p设置它, 快捷键功能参考opencode的显示.</p>
+<h2 id="配置opencode"><a href="#配置opencode" class="headerlink" title="配置opencode"></a>配置opencode</h2><p>配置文件全局的配置路径<code>%UserProfile%\.config\opencode\opencode.json </code>, 一开始没有任何配置的情况下, 这个文件不存在.</p>
+<p>项目的配置文件是在打开的项目的根目录的<code>opencode.json</code>文件里.</p>
+<p>假如我们想添加一个mcp, 可以如下添加到<code>opencode.json</code>文件里:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;mcp&quot;: &#123;</span><br><span class="line">    &quot;my_ida-mcp&quot;:&#123;</span><br><span class="line">      &quot;type&quot;:&quot;remote&quot;,</span><br><span class="line">      &quot;url&quot;: &quot;http://127.0.0.1:18888/mcp&quot;,</span><br><span class="line">      &quot;enabled&quot;: false</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加后, 打开opencode的带界面的程序:</p>
+<p><img src="/images/vscode_with_opencode.assets/1773376802033.png" alt="1773376802033"></p>
+<p>如图指示, 就可以看到添加的mcp工具了. 如果设置了<code>&quot;enabled&quot;: true</code>, 它默认就会连接. 我们再次打开vscode的opencode 终端, 在设置里也可以看到这个mcp了.</p>
+<h2 id="添加大模型api"><a href="#添加大模型api" class="headerlink" title="添加大模型api"></a>添加大模型api</h2><p>默认情况下, 它自带一些免费的体验模型, 也可以自己定义连接模型. 以下以kimi为例:</p>
+<p>根据官方文档: <a target="_blank" rel="noopener" href="https://platform.moonshot.cn/docs/api/chat#%E5%85%AC%E5%BC%80%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%9C%B0%E5%9D%80">https://platform.moonshot.cn/docs/api/chat#%E5%85%AC%E5%BC%80%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%9C%B0%E5%9D%80</a>, 可以看到例子:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from openai import OpenAI</span><br><span class="line"> </span><br><span class="line">client = OpenAI(</span><br><span class="line">    api_key = &quot;$MOONSHOT_API_KEY&quot;,</span><br><span class="line">    base_url = &quot;https://api.moonshot.cn/v1&quot;,</span><br><span class="line">)</span><br><span class="line"> </span><br><span class="line">completion = client.chat.completions.create(</span><br><span class="line">    model = &quot;kimi-k2-turbo-preview&quot;,</span><br><span class="line">    messages = [</span><br><span class="line">        &#123;&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是 Kimi，由 Moonshot AI 提供的人工智能助手，你更擅长中文和英文的对话。你会为用户提供安全，有帮助，准确的回答。同时，你会拒绝一切涉及恐怖主义，种族歧视，黄色暴力等问题的回答。Moonshot AI 为专有名词，不可翻译成其他语言。&quot;&#125;,</span><br><span class="line">        &#123;&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;你好，我叫李雷，1+1等于多少？&quot;&#125;</span><br><span class="line">    ],</span><br><span class="line">    temperature = 0.6,</span><br><span class="line">)</span><br><span class="line"> </span><br><span class="line">print(completion.choices[0].message.content)</span><br></pre></td></tr></table></figure>
+
+<p>在opencode中, 选择模型:</p>
+<p><img src="/images/vscode_with_opencode.assets/1773377173794.png" alt="1773377173794"></p>
+<p>之后选择查看更多:</p>
+<p><img src="/images/vscode_with_opencode.assets/1773377201451.png" alt="1773377201451"></p>
+<p>选择自定义, 添加如下内容:</p>
+<p><img src="/images/vscode_with_opencode.assets/1773377268475.png" alt="1773377268475"></p>
+<p>之后需要添加模型id, 可以参考 <a target="_blank" rel="noopener" href="https://platform.moonshot.cn/docs/pricing/chat#%E8%AE%A1%E8%B4%B9%E9%80%BB%E8%BE%91">https://platform.moonshot.cn/docs/pricing/chat#%E8%AE%A1%E8%B4%B9%E9%80%BB%E8%BE%91</a> 页面的模型定价, 添加模型id:</p>
+<p><img src="/images/vscode_with_opencode.assets/1773377370892.png" alt="1773377370892"></p>
+<p>最后提交即可添加模型. 最后选择我们添加的模型, 输入内容, 如果正确应答, 就算成功. </p>
+<p><img src="/images/vscode_with_opencode.assets/1773377684402.png" alt="1773377684402"></p>
+<h2 id="对话"><a href="#对话" class="headerlink" title="对话"></a>对话</h2><p>默认有两种模式: plan和build, plan模式是不能写文件的, 我建议一般情况下, 都可以先用plan问问看它要干啥, 然后再切build, 否则一次性被改了很多文件后, 不满意还得一个个改, 很累.</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>如果在vscode里使用opencode, 输入数据尽量不要复制粘贴, 它默认情况下会识别换行符, 导致输入不完整就开始思考了.</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2025/05/15/CVE-2025-21297/" class="next">下一篇</a></div><div id="container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><div id="gitalk-container"></div><script>const gitalk = new Gitalk({
+    clientID: '28b1a73c3ed656a9a85d',     
+    clientSecret: '59837bb4cbe7b2f12df366fdbcb37fa4ba084d44',     
+    id: 'Fri Mar 13 2026 11:58:41 GMT+0800',    
+    repo: 'blog-comment',     
+    owner: '474172261',     
+    admin: '474172261',     
+})   
+gitalk.render('gitalk-container')</script><div class="copyright"><p>© 2015 - 2026 <a href="http://474172261.github.io">VictorV</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
